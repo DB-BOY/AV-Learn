@@ -359,10 +359,46 @@ void malloc_str() {
 //----------结构体---------------
 //------------------------------
 
-typedef struct people {
+struct people {
     char *name;
     int age;
 
+};
+
+//别名
+struct peo {
+    char *name;
+    int age;
+
+}peo1;
+
+
+//匿名结构体
+//限制结构体变量的个数，类似单例
+struct {
+    char *name;
+    int age;
+}pp;
+
+
+
+//结构体嵌套
+struct Teacher{
+    char* name;
+};
+
+struct Student{
+    char* name;
+    int age;
+    struct Teacher teacher;
+};
+
+struct Student1{
+    char* name;
+    int age;
+    struct Teacher1{
+        char* name;
+    }t;
 };
 
 void struct_t() {
@@ -377,6 +413,29 @@ void struct_t() {
     p1.age = 19;
 
     printf("%s,%d \n",p1.name,p1.age);
+
+
+
+    peo1.name = "db";
+    peo1.age = 12;
+    printf("%s,%d \n",peo1.name,peo1.age);
+
+
+    pp.name = "db_";
+    pp.age = 12;
+    printf("%s,%d \n",pp.name,pp.age);
+
+
+    //----
+    struct Student s1 ={"lili",13,{"han"}};
+    printf("%s, %d, Teacher.name: %s \n",s1.name,s1.age,s1.teacher.name);
+    struct Student1 s2;
+    s2.name="lilei";
+    s2.age =19;
+
+    strcpy(s2.t.name,"hanmeimei");
+    printf("%s, %d, Teacher.name: %s \n",s2.name,s2.age,s2.t.name);
+
 
 }
 
