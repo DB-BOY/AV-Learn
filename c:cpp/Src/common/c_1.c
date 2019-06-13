@@ -370,7 +370,7 @@ struct peo {
     char *name;
     int age;
 
-}peo1;
+} peo1;
 
 
 //匿名结构体
@@ -378,64 +378,96 @@ struct peo {
 struct {
     char *name;
     int age;
-}pp;
-
+} pp;
 
 
 //结构体嵌套
-struct Teacher{
-    char* name;
+struct Teacher {
+    char *name;
 };
 
-struct Student{
-    char* name;
+struct Student {
+    char *name;
     int age;
     struct Teacher teacher;
 };
 
-struct Student1{
-    char* name;
+struct Student1 {
+    char *name;
     int age;
-    struct Teacher1{
-        char* name;
-    }t;
+    struct Teacher1 {
+        char *name;
+    } t;
 };
+
+//结构体数组与指针
+struct Man {
+    char *name;
+    int age;
+};
+
+typedef struct Man1{
+    char *name;
+    int age;
+} M,*M1;
+
 
 void struct_t() {
 
     //声明赋值
-    struct people p = {"db_boy",18};
-    printf("%s,%d \n",p.name,p.age);
+    struct people p = {"db_boy", 18};
+    printf("%s,%d \n", p.name, p.age);
 
     //先声明后赋值
     struct people p1;
-    p1.name= "db_boy_gin";
+    p1.name = "db_boy_gin";
     p1.age = 19;
 
-    printf("%s,%d \n",p1.name,p1.age);
-
-
+    printf("%s,%d \n", p1.name, p1.age);
 
     peo1.name = "db";
     peo1.age = 12;
-    printf("%s,%d \n",peo1.name,peo1.age);
+    printf("%s,%d \n", peo1.name, peo1.age);
 
 
     pp.name = "db_";
     pp.age = 12;
-    printf("%s,%d \n",pp.name,pp.age);
+    printf("%s,%d \n", pp.name, pp.age);
 
 
     //----
-    struct Student s1 ={"lili",13,{"han"}};
-    printf("%s, %d, Teacher.name: %s \n",s1.name,s1.age,s1.teacher.name);
+    struct Student s1 = {"lili", 13, {"han"}};
+    printf("%s, %d, Teacher.name: %s \n", s1.name, s1.age, s1.teacher.name);
     struct Student1 s2;
-    s2.name="lilei";
-    s2.age =19;
+    s2.name = "lilei";
+    s2.age = 19;
 
-    strcpy(s2.t.name,"hanmeimei");
-    printf("%s, %d, Teacher.name: %s \n",s2.name,s2.age,s2.t.name);
+    strcpy(s2.t.name, "hanmeimei");
+    printf("%s, %d, Teacher.name: %s \n", s2.name, s2.age, s2.t.name);
 
+
+    //----
+    struct Student *s = &s1;
+    printf("结构体指针： %s, %d, Teacher.name: %s \n", (*s).name, (*s).age, s->teacher.name);
+
+
+    //----
+    struct Man mans[] = {{"db",  12},
+                         {"boy", 13}};
+
+    printf("%d,%d \n", sizeof(mans), sizeof(struct Man));
+    struct Man *m = mans;
+    int i = 0;
+    for (; i < sizeof(mans)/ sizeof(struct Man); i++) {
+        printf("结构体数组指针： %s, %d\n", mans[i].name, mans[i].age);
+    }
+
+    printf("\n");
+    for (; m < mans + 2; m++) {
+        printf("结构体数组指针： %s, %d\n", m->name, (*m).age);
+    }
+
+    M mm={"333",121};
 
 }
 
