@@ -1,3 +1,10 @@
-cmake-build-debug
-/.idea
 *.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
+cmake-build-debug
