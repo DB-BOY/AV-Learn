@@ -340,7 +340,6 @@ void malloc_str() {
     strcpy(dest, b);
     printf("%s \n", dest);
 
-
     a = "find string";
     char *index = strchr(a, 'd');
     if (index) {
@@ -467,7 +466,7 @@ void struct_t() {
         printf("结构体数组指针： %s, %d\n", m->name, (*m).age);
     }
 
-    M mm={"333",121};
+//    M mm={"333",121};
 
 }
 
