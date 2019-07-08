@@ -48,9 +48,9 @@ Java_com_dbboy_ndk_jni_JniTest_getStringFiled(JNIEnv *env, jobject jobj) {
  * 访问静态属性
  */
 JNIEXPORT jstring JNICALL
-Java_com_dbboy_ndk_jni_JniTest_getStaticFiled(JNIEnv *env, jobject instance) {
+Java_com_dbboy_ndk_jni_JniTest_getStaticFiled(JNIEnv *env, jobject jobj) {
 
-    jclass jcls = (*env)->GetObjectClass(env,instance);
+    jclass jcls = (*env)->GetObjectClass(env,jobj);
     jfieldID  jfid = (*env)->GetStaticFieldID(env,jcls,"staticProperty","Ljava/lang/String;");
     jstring js = (*env)->GetStaticObjectField(env,jcls,jfid);
     
@@ -63,11 +63,10 @@ Java_com_dbboy_ndk_jni_JniTest_getStaticFiled(JNIEnv *env, jobject instance) {
  * 访问方法
  */
 JNIEXPORT void JNICALL
-Java_com_dbboy_ndk_jni_JniTest_getMethod(JNIEnv *env, jobject instance) {
-    jclass jcls = (*env)->GetObjectClass(env,instance);
+Java_com_dbboy_ndk_jni_JniTest_getMethod(JNIEnv *env, jobject jobj) {
+    jclass jcls = (*env)->GetObjectClass(env,jobj);
     jmethodID  jmid  =(*env)->GetMethodID(env,jcls,"callByNative","()V");
-    (*env)->CallVoidMethod(env,jcls,jmid);
-
+    (*env)->CallVoidMethod(env,jobj,jmid);
 }
 
 /*
