@@ -20,6 +20,14 @@ public class JniTest {
     public native String getStaticFiled();
     public native void getMethod();
     public native void getStaticMethod();
+
+    /**
+     * 获取构造方法，Data获取时间戳
+     */
+    public native long getConstructor();
+    
+    
+    
     
     private void callByNative(){
         Log.i("----","call by native");

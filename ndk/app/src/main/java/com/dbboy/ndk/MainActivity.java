@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("----db.boy--static-", jni.getStaticFiled());
         jni.getMethod();
         jni.getStaticMethod();
+        Log.i("----db.boy--获取构造方法-","Date获取时间戳"+ jni.getConstructor());
     }
 
 
