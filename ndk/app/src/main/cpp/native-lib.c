@@ -1,8 +1,9 @@
 #include <jni.h>
 #include  <android/log.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define  TAG  "__DB_BOY__"
+#define  TAG  "_______DB_BOY__jni"
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO,TAG,__VA_ARGS__)
 
@@ -94,14 +95,55 @@ Java_com_dbboy_ndk_jni_JniTest_getConstructor(JNIEnv *env, jobject jobj) {
     jmethodID jmid = (*env)->GetMethodID(env, jcls, "<init>", "()V");
 
     //实例化对象
-    jobject  date = (*env)->NewObject(env,jcls,jmid);
+    jobject date = (*env)->NewObject(env, jcls, jmid);
     //通过jcls获取getTime method
-    jmethodID  getTimeMethod= (*env)->GetMethodID(env, jcls, "getTime","()J");
-    
-    jlong time = (*env)->CallLongMethod(env,date,getTimeMethod);
-    
-    LOGI("----native 获取时间戳-%ld",time);
+    jmethodID getTimeMethod = (*env)->GetMethodID(env, jcls, "getTime", "()J");
+
+    jlong time = (*env)->CallLongMethod(env, date, getTimeMethod);
+
+    LOGI("----native 获取时间戳-%ld", time);
 
     return time;
 
+}
+
+/*
+ * 访问父类方法
+ */
+JNIEXPORT void JNICALL
+Java_com_dbboy_ndk_jni_JniTest_getSuperMethod(JNIEnv *env, jobject instance) {
+
+
+    jclass cls = (*env)->GetObjectClass(env, instance);
+    jfieldID fieldId = (*env)->GetFieldID(env, cls, "child", "Lcom/dbboy/ndk/demo/Parent;");
+
+    //通过属性获取到的对象是子类对象
+    //Parent child  = new Child();
+    jobject obj = (*env)->GetObjectField(env, instance, fieldId);
+
+    //找到父类对象，传入父类名
+    jclass parent = (*env)->FindClass(env, "com/dbboy/ndk/demo/Parent");
+    jmethodID methodid = (*env)->GetMethodID(env, parent, "getString", "()V");
+
+    //子类的方法
+    (*env)->CallVoidMethod(env, obj, methodid);
+
+    //父类的方法,不覆盖父类方法
+    (*env)->CallNonvirtualVoidMethod(env, obj, parent, methodid);
+
+}
+
+int compare(int *a,int *b ){
+    return (*a)-(*b);
+}
+
+JNIEXPORT void JNICALL
+Java_com_dbboy_ndk_jni_JniTest_setArray(JNIEnv *env, jobject instance, jintArray array) {
+    jint *ints = (*env)->GetIntArrayElements(env, array, JNI_FALSE);
+    
+    int len = (*env)->GetArrayLength(env,array);
+    qsort(ints,len, sizeof(jint),compare);
+    
+    //同步，如果不加，JAVA中不改变
+    (*env)->ReleaseIntArrayElements(env, array, ints, 0);
 }

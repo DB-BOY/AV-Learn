@@ -10,6 +10,8 @@ import com.dbboy.ndk.jni.JniTest;
 public class MainActivity extends AppCompatActivity {
 
 
+    private String TAG = "--db.boy--jni";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +21,21 @@ public class MainActivity extends AppCompatActivity {
 
         JniTest jni = new JniTest();
         tv.setText(jni.stringFromJNI());
-        Log.i("----db.boy---", jni.getStringFiled());
-        Log.i("----db.boy--static-", jni.getStaticFiled());
+        Log.i(TAG, jni.getStringFiled());
+        
+        Log.i(TAG + "static-", jni.getStaticFiled());
         jni.getMethod();
         jni.getStaticMethod();
-        Log.i("----db.boy--获取构造方法-","Date获取时间戳"+ jni.getConstructor());
+        Log.i(TAG+"-获取构造方法-","Date获取时间戳"+ jni.getConstructor());
+        
+        
+        Log.i(TAG,"获取父类方法" );
+        jni.getSuperMethod();
+        int [] arr = {7,89,2,13,315,7,8,92,12};
+        jni.setArray(arr);
+        for (int i : arr) {
+            Log.i(TAG,i+" ");
+        }
     }
 
 
