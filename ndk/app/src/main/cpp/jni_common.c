@@ -138,12 +138,28 @@ int compare(int *a,int *b ){
 }
 
 JNIEXPORT void JNICALL
-Java_com_dbboy_ndk_jni_JniTest_setArray(JNIEnv *env, jobject instance, jintArray array) {
-    jint *ints = (*env)->GetIntArrayElements(env, array, JNI_FALSE);
+Java_com_dbboy_ndk_jni_JniTest_operateArray(JNIEnv *env, jobject instance, jintArray array) {
+    
+    jint *ints = (*env)->GetIntArrayElements(env, array, NULL); //只能使用NULL，或者JNI_FALSE
     
     int len = (*env)->GetArrayLength(env,array);
     qsort(ints,len, sizeof(jint),compare);
     
     //同步，如果不加，JAVA中不改变
+    // 使用完直接指针后需要立即释放
     (*env)->ReleaseIntArrayElements(env, array, ints, 0);
+}
+
+JNIEXPORT jintArray JNICALL
+Java_com_dbboy_ndk_jni_JniTest_getArray(JNIEnv *env, jobject instance, jint  len) {
+    jintArray  arr = (*env)->NewIntArray(env,len);
+    jint *elems = (*env)->GetIntArrayElements(env,arr,NULL);
+    
+    int i =0;
+    for(;i<10;i++){
+        elems[i]=i;
+    }
+    
+    (*env)->ReleaseIntArrayElements(env,arr,elems,0);
+    return arr ;
 }
